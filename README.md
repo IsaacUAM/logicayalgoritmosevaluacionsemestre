@@ -1,4 +1,3 @@
-
 # Cajeros Avanz
 
 Cajeros Avanz es un sistema para cajeros automáticos para el banco Avanz y busca el mejoramiento de la eficacia y eficiencia de los trámites para los clientes.
@@ -9,6 +8,7 @@ Cajeros Avanz es un sistema para cajeros automáticos para el banco Avanz y busc
 ## Autores
 
 - [@ELaleman2607apo](https://www.github.com/ELaleman2607apo)
+- [@JorgeCubillo117](https://github.com/JorgeCubillo117)
 - [@IsaacUAM](https://www.github.com/IsaacUAM)
 
 ## Usado por
@@ -21,4 +21,3 @@ Banco Avanz y sus logos son marcas registradas del Grupo Pellas. Todos los derec
 Toda la información anterior forma parte de una simulación con fines académicos por parte de la Universidad Americana (UAM).
 
 ![MIT License](https://img.shields.io/badge/Profe%20pónganos%20100-8A2BE2)
-
