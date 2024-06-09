@@ -3,28 +3,29 @@
 using namespace std;
 
 // Función para retirar dinero
-void retirarDinero(int saldo) {
+void retirarDinero(int &saldo) {
     int montos[] = {100, 200, 400, 500};
     int opcion;
     cout << "Seleccione el monto a retirar:" << endl;
-    for(int i = 0; i < sizeof(montos)/sizeof(montos[0]); i++) {
-        cout << i+1 << ". $" << montos[i] << endl;
+    for (int i = 0; i < 4; i++) {
+        cout << i + 1 << ". $" << montos[i] << endl;
     }
     cout << "Ingrese su opción: ";
     cin >> opcion;
     
-    if (opcion < 1 || opcion > sizeof(montos)/sizeof(montos[0])) {
+    if (opcion < 1 || opcion > 4) {
         cout << "Opción no válida. Por favor, seleccione una opción válida." << endl;
         return;
     }
     
-    int monto = montos[opcion-1];
+    int monto = montos[opcion - 1];
     
     if (saldo < monto) {
         cout << "Fondos insuficientes. No se puede retirar esa cantidad." << endl;
         return;
     }
 
+    saldo -= monto;
     cout << "Retirando $" << monto << "..." << endl;
     // Simulación de retiro de dinero
 }
