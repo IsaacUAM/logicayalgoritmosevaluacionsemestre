@@ -4,43 +4,50 @@
 
 using namespace std;
 
-// Función para verificar PIN
-bool verificarPIN() {
-    int intentos = 3, pincorrecto, pines[] = {1234, 2345, 3456, 4567};
+bool verificarPIN() //Función para verificar el PIN
+{
+    int intentos = 3, pincorrecto, pines[] = {1234, 2345, 3456, 4567}; // Declaramos las variables y el arreglo con los pines
     cout << "Bienvenido al cajero automático de Avanz" << endl;
-    do {
+    do // Bucle do while, comprueba hasta que los intentos son igual a 0
+    {
         cout << "\nNúmero de intentos disponibles: " << intentos;
-        cout << "\nInserte su PIN:\n\n";
+        cout << "\nInserte su PIN:\n\n"; // Pide al usuario el PIN, debe ser igual a uno de los que esté en el arreglo
         cin >> pincorrecto;
-        if (pincorrecto == pines[0] || pincorrecto == pines[1] || pincorrecto == pines[2] || pincorrecto == pines[3]) {
-            return true;
-        } else {
+        if (pincorrecto == pines[0] || pincorrecto == pines[1] || pincorrecto == pines[2] || pincorrecto == pines[3])
+        {
+            return true; // Si el PIN es igual, entonces el bool es igual a true
+        }
+        else
+        {
             intentos -= 1;
-            cout << "Pin incorrecto.\n";
+            cout << "Pin incorrecto.\n"; // Si el PIN no es igual, entonces resta un intento y vuelve a empezar el bucle
         }
     } while (intentos != 0);
-    if (intentos == 0) {
+    if (intentos == 0) // Si los intentos son igual a 0 entonces imprime que el usuario fué bloqueado y acaba el programa
+    {
         cout << "Su usuario ha sido bloqueado." << endl;
     }
     return false;
 }
 
 // Función para imprimir recibo
-void imprimirRecibo(int saldo, string tipo, int monto, string cuentaDestino = "") {
+void imprimirRecibo(int saldo, string tipo, int monto, string cuentaDestino = "")
+{
     time_t now = time(0);
     tm *ltm = localtime(&now);
 
+    cout << "\n\n============================" << endl;
+    cout << "   RECIBO DE CAJERO AVANZ        " << endl;
     cout << "============================" << endl;
-    cout << "        RECIBO DE CAJERO        " << endl;
-    cout << "============================" << endl;
-    cout << "Fecha y Hora: " 
-         << 1900 + ltm->tm_year << "-" 
-         << 1 + ltm->tm_mon << "-" 
-         << ltm->tm_mday << " " 
-         << 1 + ltm->tm_hour << ":" 
-         << 1 + ltm->tm_min << ":" 
+    cout << "Fecha y Hora: "
+         << 1900 + ltm->tm_year << "-"
+         << 1 + ltm->tm_mon << "-"
+         << ltm->tm_mday << " "
+         << 1 + ltm->tm_hour << ":"
+         << 1 + ltm->tm_min << ":"
          << 1 + ltm->tm_sec << endl;
-    if (tipo == "transferencia") {
+    if (tipo == "transferencia")
+    {
         cout << "Transferencia de: $" << monto << endl;
         cout << "A la cuenta: " << cuentaDestino << endl;
     }
@@ -49,70 +56,79 @@ void imprimirRecibo(int saldo, string tipo, int monto, string cuentaDestino = ""
 }
 
 // Función para retirar dinero
-void retirarDinero(int &saldo) {
+void retirarDinero(int &saldo)
+{
     int montos[] = {100, 200, 400, 500};
     int opcion;
-    cout << "Seleccione el monto a retirar:" << endl;
-    for (int i = 0; i < 4; i++) {
+    cout << "\n\nSeleccione el monto a retirar:" << endl;
+    for (int i = 0; i < 4; i++)
+    {
         cout << i + 1 << ". $" << montos[i] << endl;
     }
     cout << "Ingrese su opción: ";
     cin >> opcion;
-    
-    if (opcion < 1 || opcion > 4) {
-        cout << "Opción no válida. Por favor, seleccione una opción válida." << endl;
+
+    if (opcion < 1 || opcion > 4)
+    {
+        cout << "\n\nOpción no válida. Por favor, seleccione una opción válida." << endl;
         return;
     }
-    
+
     int monto = montos[opcion - 1];
-    
-    if (saldo < monto) {
-        cout << "Fondos insuficientes. No se puede retirar esa cantidad." << endl;
+
+    if (saldo < monto)
+    {
+        cout << "\n\nFondos insuficientes. No se puede retirar esa cantidad." << endl;
         return;
     }
 
     saldo -= monto;
-    cout << "Retirando $" << monto << "..." << endl;
+    cout << "\n\nRetirando $" << monto << "..." << endl;
     // Simulación de retiro de dinero
 
     int postRetiroOpcion;
-    do {
-        cout << "==== Opciones Post Retiro ====" << endl;
+    do
+    {
+        cout << "\n\n==== Opciones Post Retiro ====" << endl;
         cout << "1. Imprimir recibo" << endl;
         cout << "2. Salir" << endl;
         cout << "Ingrese su opción: ";
         cin >> postRetiroOpcion;
 
-        switch (postRetiroOpcion) {
-            case 1:
-                imprimirRecibo(saldo, "retiro", monto);
-                break;
-            case 2:
-                cout << "Gracias por utilizar el cajero automático. ¡Hasta luego!" << endl;
-                return;
-            default:
-                cout << "Opción no válida. Por favor, seleccione una opción válida." << endl;
+        switch (postRetiroOpcion)
+        {
+        case 1:
+            imprimirRecibo(saldo, "retiro", monto);
+            break;
+        case 2:
+            cout << "Gracias por utilizar el cajero automático. ¡Hasta luego!" << endl;
+            return;
+        default:
+            cout << "Opción no válida. Por favor, seleccione una opción válida." << endl;
         }
     } while (postRetiroOpcion != 2);
 }
 
 // Función para transferir dinero
-void transferirDinero(int &saldo, unordered_map<string, int> &cuentas) {
+void transferirDinero(int &saldo, unordered_map<string, int> &cuentas)
+{
     string cuentaDestino;
     int monto;
-    
-    cout << "Ingrese el número de cuenta destino: ";
+
+    cout << "\n\nIngrese el número de cuenta destino: ";
     cin >> cuentaDestino;
 
-    if (cuentas.find(cuentaDestino) == cuentas.end()) {
+    if (cuentas.find(cuentaDestino) == cuentas.end())
+    {
         cout << "Número de cuenta no válido. Por favor, intente nuevamente." << endl;
         return;
     }
 
     cout << "Ingrese el monto a transferir: ";
     cin >> monto;
-    
-    if (saldo < monto) {
+
+    if (saldo < monto)
+    {
         cout << "Fondos insuficientes. No se puede transferir esa cantidad." << endl;
         return;
     }
@@ -120,7 +136,7 @@ void transferirDinero(int &saldo, unordered_map<string, int> &cuentas) {
     saldo -= monto;
     cuentas[cuentaDestino] += monto;
     cout << "Transfiriendo $" << monto << " a la cuenta " << cuentaDestino << "..." << endl;
-    
+
     // Imprimir recibo de transferencia
     imprimirRecibo(saldo, "transferencia", monto, cuentaDestino);
 
@@ -129,19 +145,22 @@ void transferirDinero(int &saldo, unordered_map<string, int> &cuentas) {
     exit(0);
 }
 
-int main() {
-    if (!verificarPIN()) {
+int main()
+{
+    if (!verificarPIN())
+    {
         return 0;
     }
 
-    int saldo = 1000; // Saldo disponible para fines de demostración
+    int saldo = 1000;                   // Saldo disponible para fines de demostración
     unordered_map<string, int> cuentas; // Mapa de cuentas y saldos
-    cuentas["12345678"] = 500; // Cuenta de ejemplo
-    cuentas["87654321"] = 700; // Otra cuenta de ejemplo
+    cuentas["12345678"] = 500;          // Cuenta de ejemplo
+    cuentas["87654321"] = 700;          // Otra cuenta de ejemplo
 
     int opcion;
-    do {
-        cout << "==== Menú del Cajero Automático ====" << endl;
+    do
+    {
+        cout << "\n\n==== Menú del Cajero Automático ====" << endl;
         cout << "1. Retirar dinero" << endl;
         cout << "2. Consultar saldo" << endl;
         cout << "3. Transferir dinero" << endl;
@@ -150,24 +169,25 @@ int main() {
         cout << "Ingrese su opción: ";
         cin >> opcion;
 
-        switch (opcion) {
-            case 1:
-                retirarDinero(saldo);
-                break;
-            case 2:
-                cout << "Su saldo actual es: $" << saldo << endl;
-                break;
-            case 3:
-                transferirDinero(saldo, cuentas);
-                break;
-            case 4:
-                imprimirRecibo(saldo, "consulta", 0);
-                break;
-            case 5:
-                cout << "Gracias por utilizar el cajero automático. ¡Hasta luego!" << endl;
-                return 0;
-            default:
-                cout << "Opción no válida. Por favor, seleccione una opción válida." << endl;
+        switch (opcion)
+        {
+        case 1:
+            retirarDinero(saldo);
+            break;
+        case 2:
+            cout << "Su saldo actual es: $" << saldo << endl;
+            break;
+        case 3:
+            transferirDinero(saldo, cuentas);
+            break;
+        case 4:
+            imprimirRecibo(saldo, "consulta", 0);
+            break;
+        case 5:
+            cout << "Gracias por utilizar el cajero automático. ¡Hasta luego!" << endl;
+            return 0;
+        default:
+            cout << "Opción no válida. Por favor, seleccione una opción válida." << endl;
         }
     } while (opcion != 5);
 
